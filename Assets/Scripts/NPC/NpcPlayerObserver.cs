@@ -22,4 +22,10 @@ public class NpcPlayerObserver : MonoBehaviour
     {
         npcMovementStrategyChanger.SetIdle();
     }
+
+    public void OnDestroy()
+    {
+        PlayerEventsManager.OnUserStartMove -= HandleUserStartMove;
+        PlayerEventsManager.OnUserStop -= HandleUserStop;
+    }
 }
