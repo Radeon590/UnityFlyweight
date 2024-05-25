@@ -1,58 +1,53 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class NpcMovementStrategyChanger : MonoBehaviour
 {
     [SerializeField] private Npc npc;
     [SerializeField] private float oneStrategyTime = 10;
-    [SerializeField] private MovementStrategy currentStrategy = MovementStrategy.Attack;
+    public MovementStrategy currentStrategy = MovementStrategy.Idle;
     
     // Start is called before the first frame update
     void Start()
     {
-        SetStrategy();
-        StartCoroutine(ChangeMovementStrategyCoroutine());
+        SwitchStrategy();
     }
 
-    private IEnumerator ChangeMovementStrategyCoroutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(oneStrategyTime);
-            if ((int)currentStrategy == Enum.GetNames(typeof(MovementStrategy)).Length - 1)
-            {
-                currentStrategy = 0;
-            }
-            else
-            {
-                currentStrategy++;
-            }
-            SetStrategy();
-        }
-    }
-
-    public void SetStrategy()
+    public void SwitchStrategy()
     {
         switch (currentStrategy)
         {
             case MovementStrategy.Idle:
-                SetIdle();
+                SetUpIdle();
                 break;
             case MovementStrategy.Attack:
-                SetAttack();
+                SetUpAttack();
                 break;
         }
     }
-    
+
     public void SetIdle()
+    {
+        currentStrategy = MovementStrategy.Idle;
+        SetUpIdle();
+    }
+    
+    private void SetUpIdle()
     {
         Debug.Log("idle");
         npc.MovementStrategy = new IdleMovementStrategy(npc.transform, npc.MovementSpeed, npc.IdleMovementOneVectorTime);
     }
-
+    
     public void SetAttack()
+    {
+        currentStrategy = MovementStrategy.Attack;
+        SetUpAttack();
+    }
+
+    private void SetUpAttack()
     {
         Debug.Log("attack");
         npc.MovementStrategy = new AttackMovementStrategy(npc.transform, npc.MovementSpeed);
