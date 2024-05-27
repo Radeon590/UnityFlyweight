@@ -7,7 +7,7 @@ public class NpcPlayerObserver : MonoBehaviour
 {
     [SerializeField] private NpcMovementStrategyChanger npcMovementStrategyChanger;
 
-    private void Start()
+    private void Awake()
     {
         PlayerEventsManager.OnUserStartMove += HandleUserStartMove;
         PlayerEventsManager.OnUserStop += HandleUserStop;

@@ -11,7 +11,7 @@ public class NpcMovementStrategyChanger : MonoBehaviour
     public MovementStrategy currentStrategy = MovementStrategy.Idle;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         SwitchStrategy();
     }
